@@ -1,0 +1,57 @@
+@extends('layouts.backend')
+
+@section('page_title')
+{{ config('app.name', '') }} - %%crudLabel%%
+@endsection
+
+@section('breadcrumb')
+<li><a href="{{ url('/%%routeGroup%%%%viewName%%') }}">%%crudLabelCap%%</a></li>
+<li class="active">Chỉnh sửa</li>
+@endsection
+
+@section('content')
+<div class="row" ng-controller="%%viewName%%Controller">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Sửa %%crudLabelCap%% #{{ $%%crudNameSingular%%->%%primaryKey%% }}</h3>
+            </div>
+            <div class="box-body">
+                <a href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Quay lại danh sách"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Quay lại danh sách</button></a>
+                <br />
+                <br />
+
+                @if ($errors->any())
+                    <div class="callout callout-danger">
+                        <h4><i class="icon fa fa-ban"></i> Lỗi nhập dữ liệu!</h4>
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+                {!! Form::model($%%crudNameSingular%%, [
+                    'method' => 'PATCH',
+                    'url' => ['/%%routeGroup%%%%viewName%%', $%%crudNameSingular%%->%%primaryKey%%],
+                    'class' => 'form-horizontal',
+                    'files' => true,
+                    'id' => 'frmSave'
+                ]) !!}
+
+                @include ('%%viewTemplateDir%%.form')
+
+                {!! Form::close() !!}
+
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+app.controller('%%viewName%%Controller', ['$scope', '$http', '$filter', '$timeout', function($scope, $http, $filter, $timeout) {
+    $scope.objData = NvlObject( {!! json_encode($%%crudNameSingular%%) !!} );
+}]);
+</script>
+@endsection

@@ -1,0 +1,4 @@
+<div class="checkbox">
+    <label>{!! Form::radio('%1$s', '1', false, ['ng-model' => 'objData.%1$s', 'ng-checked' => 'objData.%1$s == 1', 'class' => 'iCheck', 'icheck']) !!} Có</label>
+    <label>{!! Form::radio('%1$s', '0', true, ['ng-model' => 'objData.%1$s', 'ng-checked' => 'objData.%1$s == 0', 'class' => 'iCheck', 'icheck']) !!} Không</label>
+</div>

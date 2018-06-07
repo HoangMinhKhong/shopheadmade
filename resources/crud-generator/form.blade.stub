@@ -1,0 +1,10 @@
+%%formFieldsHtml%%
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-4">
+    	<button type="submit" class="btn btn-success" title="Lưu" onclick="return d2tConfirmSave(function(){
+                    $('#frmSave').submit();});">
+    		<i class="fa fa-floppy-o" aria-hidden="true"></i> Lưu
+    	</button>
+    </div>
+</div>

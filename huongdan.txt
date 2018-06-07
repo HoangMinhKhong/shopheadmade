@@ -1,0 +1,6 @@
+1. Chạy lệnh migrate để tạo database
+php artisan migrate
+
+2. Chạy lệnh seeding để tạo user admin và thông tin phân quyền cơ bản
+php artisan db:seed
+

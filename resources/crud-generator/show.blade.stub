@@ -1,0 +1,67 @@
+@extends('layouts.backend')
+
+@section('page_title')
+{{ config('app.name', '') }} - %%crudLabel%%
+@endsection
+
+@section('breadcrumb')
+<li><a href="{{ url('/%%routeGroup%%%%viewName%%') }}">%%crudLabelCap%%</a></li>
+<li class="active">Xem chi tiết</li>
+@endsection
+
+@section('content')
+<div class="row" ng-controller="%%viewName%%Controller">
+    <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">%%crudLabelCap%% {{ $%%crudNameSingular%%->%%primaryKey%% }}</h3>
+                </div>
+                <div class="box-body">
+
+                    <a href="{{ url('/%%routeGroup%%%%viewName%%') }}" title="Quay lại danh sách"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Quay lại danh sách</button></a>
+
+                    @if(\Auth::user()->can('%%viewName%%_edit') || \Auth::user()->hasRole('administrator'))
+                    <a href="{{ url('/%%routeGroup%%%%viewName%%/' . $%%crudNameSingular%%->%%primaryKey%% . '/edit') }}" title="Sửa %%modelName%%"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</button></a>
+                    @endif
+
+                    @if(\Auth::user()->can('%%viewName%%_delete') || \Auth::user()->hasRole('administrator'))
+                    {!! Form::open([
+                        'id' => 'frmDelete_'. $%%crudNameSingular%%->%%primaryKey%%,
+                        'method'=>'DELETE',
+                        'url' => ['%%routeGroup%%%%crudName%%', $%%crudNameSingular%%->%%primaryKey%%],
+                        'style' => 'display:inline'
+                    ]) !!}
+                    <button type="submit" class="btn btn-danger btn-xs" title="Xóa" onclick="return d2tConfirmDelete(function(){
+                                $('#frmDelete_{{ $%%crudNameSingular%%->id }}').submit();
+                            });">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i> Xóa
+                    </button>
+                    {!! Form::close() !!}
+                    @endif
+                <br/>
+                <br/>
+
+                <div class="table-responsive">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th>ID</th><td>{{ $%%crudNameSingular%%->%%primaryKey%% }}</td>
+                            </tr>
+                            %%formBodyHtmlForShowView%%
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+app.controller('%%viewName%%Controller', ['$scope', '$http', '$filter', '$timeout', function($scope, $http, $filter, $timeout) {
+    $scope.objData = NvlObject( {!! json_encode($%%crudNameSingular%%) !!} );
+}]);
+</script>
+@endsection
