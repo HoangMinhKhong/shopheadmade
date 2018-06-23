@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -34,13 +34,23 @@ Route::group(['prefix' => 'admin', 'middleware' => 'permission'], function() {
 
 	Route::post('users/batch-remove', 'Admin\\UsersController@batchRemove');
 	Route::resource('users', 'Admin\UsersController');
-	Route::get('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
-	Route::post('generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
 
 	Route::post('posts/batch-remove', 'Admin\\PostsController@batchRemove');
 	Route::resource('posts', 'Admin\\PostsController');
 
 	Route::post('bookmark/batch-remove', 'Admin\\BookmarkController@batchRemove');
 	Route::resource('bookmark', 'Admin\BookmarkController');
-});
 
+	Route::post('frame/batch-remove', 'Admin\\FrameController@batchRemove');
+	Route::resource('frame', 'Admin\FrameController');
+
+	Route::post('clock/batch-remove', 'Admin\\ClockContrller@batchRemove');
+	Route::resource('clock', 'Admin\ClockContrller');
+
+	Route::post('pillow/batch-remove', 'Admin\\PillowController@batchRemove');
+	Route::resource('pillow', 'Admin\PillowController');
+
+	Route::post('neck/batch-remove', 'Admin\\NeckController@batchRemove');
+	Route::resource('neck', 'Admin\NeckController');
+
+});

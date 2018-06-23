@@ -140,6 +140,7 @@
 <script src="{{asset('AdminLTE/dist/js/adminlte.min.js')}}"></script>
 <script src="{{asset('AdminLTE/common.js')}}"></script>
 <script src="{{asset('AdminLTE/app.js')}}"></script>
+<script src="{{asset('admin_asset/ckeditor/ckeditor.js')}}"></script>
 @yield('scripts')
 </body>
 </html>

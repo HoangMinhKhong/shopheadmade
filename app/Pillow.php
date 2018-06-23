@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class bookmark extends Model
+class Pillow extends Model
 {
-    protected $table = 'bookmark';
+    protected $table = 'tblpillow';
 }
-

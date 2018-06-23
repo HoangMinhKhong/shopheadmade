@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\bookmark;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Clock;
 use Illuminate\Support\Facades\Storage;
 
-class BookmarkController extends Controller
+class ClockContrller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,20 +20,19 @@ class BookmarkController extends Controller
         $perPage = 15;
 
         if (!empty($keyword)) {
-            $bookmark = bookmark::where('name', 'LIKE', "%$keyword%")->orWhere('label', 'LIKE', "%$keyword%")
+            $clock = Clock::where('name', 'LIKE', "%$keyword%")->orWhere('label', 'LIKE', "%$keyword%")
             ->paginate($perPage);
         } else {
-            $bookmark = bookmark::paginate($perPage);
+            $clock = Clock::paginate($perPage);
         }
 
-        return view('admin.backend.bookmark.index', compact('bookmark'));
+        return view('admin.backend.clock.index', compact('clock'));
     }
 
     public function create()
     {
-        $bookmark = bookmark::all();
-        return view('admin.backend.bookmark.create');
-
+        $clock = Clock::all();
+        return view('admin.backend.clock.create');
     }
 
     public function store(Request $req)
@@ -60,21 +59,19 @@ class BookmarkController extends Controller
 
 
             ]);
-        $bookmark=new bookmark;
-        $bookmark->name = $req->name;
-        $bookmark->content = $req->content;
-        $bookmark->price = $req->price;
-        $bookmark->retail_price = $req->retail_price;
-        $bookmark->source = $req->source;
-        $bookmark->quantity = $req->quantity;
-        
-        var_dump($req->image);
+        $clock                  = new Clock;
+        $clock->name         = $req->name;
+        $clock->content      = $req->content;
+        $clock->price        = $req->price;
+        $clock->retail_price = $req->retail_price;
+        $clock->source       = $req->source;
+        $clock->quantity     = $req->quantity;
 
         if ($req->hasFile('image')) {
             $file = $req->file('image');
             $endfile = $file->getClientOriginalExtension();
             if ($endfile != 'jpg') {
-                return redirect('admin/bookmark')->with('flash_message','Chỉ được chọn file .jpg');
+                return redirect('admin/clock')->with('flash_message','Chỉ được chọn file .jpg');
             }
             $name = $file->getClientOriginalName();
             $img = str_random(4)."_".$name;
@@ -82,32 +79,32 @@ class BookmarkController extends Controller
             $img = str_random(4)."_".$name;
             }
             $file->move("upload/image",$img);
-            $bookmark->image = $img;
+            $clock->image = $img;
         }else{
-            $bookmark->image = "";
+            $clock->image = "";
         }
-        $bookmark->save();
+        $clock->save();
 
-        return redirect('admin/bookmark')->with('flash_message', 'Thêm mới thành công!');
+        return redirect('admin/clock')->with('flash_message', 'Thêm mới thành công!');
     }
 
     public function show($id)
     {
-        $bookmark = bookmark::findOrFail($id);
+        $clock = Clock::findOrFail($id);
 
-        return view('admin.backend.bookmark.show', compact('bookmark'));
+        return view('admin.backend.clock.show', compact('clock'));
     }
 
     public function edit($id)
     {
-        $bookmark = bookmark::findOrFail($id);
+        $clock = Clock::findOrFail($id);
 
-        return view('admin.backend.bookmark.edit', compact('bookmark'));
+        return view('admin.backend.clock.edit', compact('clock'));
     }
 
     public function update(Request $req, $id)
     {
-        $bookmark=bookmark::find($id);
+        $clock = Clock::find($id);
         $this->validate($req,
             [
                 'name'=>'required',
@@ -127,51 +124,52 @@ class BookmarkController extends Controller
                 'quantity.required'=>'Bạn chưa nhập số lượng',
 
             ]);
-        $bookmark->name = $req->name;
-        $bookmark->content = $req->content;
-        $bookmark->price = $req->price;
-        $bookmark->retail_price = $req->retail_price;
-        $bookmark->source = $req->source;
-        $bookmark->quantity = $req->quantity;
+        $clock->name = $req->name;
+        $clock->content = $req->content;
+        $clock->price = $req->price;
+        $clock->retail_price = $req->retail_price;
+        $clock->source = $req->source;
+        $clock->quantity = $req->quantity;
 
         if ($req->hasFile('image')) {
            $file = $req->file('image');
            $endfile = $file->getClientOriginalExtension();
            if ($endfile != 'jpg') {
-            return redirect('bookmark/list')->with('flash_message','Chỉ được chọn file .jpg');
+            return redirect('clock/list')->with('flash_message','Chỉ được chọn file .jpg');
         }
         $name = $file->getClientOriginalName();
         $img = str_random(4)."_".$name;
         while (file_exists("upload/image/".$img)){
             $img = str_random(4)."_".$name;
         }
-        Storage::delete("upload/image".$bookmark->image);
+        	Storage::delete("upload/image".$clock->image);
         $file->move("upload/image",$img);
-        $bookmark->image = $img;
+        $clock->image = $img;
+        }
+
+        $clock->save();
+
+        return redirect('admin/clock')->with('flash_message', 'Sửa thành công!');
     }
-
-    $bookmark->save();
-
-    return redirect('admin/bookmark')->with('flash_message', 'Sửa thành công!');
-}
 
     public function destroy($id)
     {
-        bookmark::destroy($id);
+        Clock::destroy($id);
 
-        return redirect('admin/bookmark')->with('flash_message', 'Xóa thành công!');
+        return redirect('admin/clock')->with('flash_message', 'Xóa thành công!');
     }
 
-    public function batchRemove() {
+    public function batchRemove() 
+    {
         $ids = $_REQUEST['ids'];
 
         if (strlen($ids) > 0) {
             $aryId = explode(',', $ids);
 
             if (count($aryId) > 0) {
-                bookmark::whereIn('id', $aryId)->delete();
+                Clock::whereIn('id', $aryId)->delete();
 
-                return redirect('admin/bookmark')->with('flash_message', 'Đã xóa thành công!');
+                return redirect('admin/clock')->with('flash_message', 'Đã xóa thành công!');
             }
         }
     }

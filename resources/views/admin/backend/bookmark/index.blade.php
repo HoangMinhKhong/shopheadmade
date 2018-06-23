@@ -16,7 +16,7 @@
                 <h3 class="box-title">Bookmark</h3>
             </div>
             <div class="box-body">
-                @if(\Auth::user()->can('permissions_create') || \Auth::user()->hasRole('administrator'))
+                @if(\Auth::user()->can('bookmark_create') || \Auth::user()->hasRole('administrator'))
                 <a href="{{ url('/admin/bookmark/create') }}" class="btn btn-success btn-sm" title="Thêm mới Permission">
                     <i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
                 </a>
@@ -78,11 +78,11 @@
                                     @if(\Auth::user()->can('bookmark_edit') || \Auth::user()->hasRole('administrator'))
                                     <a href="{{ url('/admin/bookmark/' . $item->id . '/edit') }}" title="Edit Permission"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</button></a>
                                     @endif
-                                    @if(\Auth::user()->can('permissions_delete') || \Auth::user()->hasRole('administrator'))
+                                    @if(\Auth::user()->can('bookmark_delete') || \Auth::user()->hasRole('administrator'))
                                     {!! Form::open([
                                         'id' => 'frmDelete_'. $item->id,
                                         'method'=>'DELETE',
-                                        'url' => ['/admin/permissions', $item->id],
+                                        'url' => ['/admin/bookmark', $item->id],
                                         'style' => 'display:inline'
                                     ]) !!}
                                     <button type="submit" class="btn btn-danger btn-xs" title="Xóa" onclick="return d2tConfirmDelete(function(){
@@ -107,7 +107,7 @@
                     {!! Form::open([
                         'id' => 'frmDeleteBatch',
                         'method'=>'POST',
-                        'url' => ['/admin/permissions/batch-remove'],
+                        'url' => ['/admin/bookmark/batch-remove'],
                         'style' => 'display:inline'
                     ]) !!}
                     <input type="hidden" name="ids" class="batchInputHidden"/>

@@ -13,7 +13,7 @@
                 <h3 class="box-title">Bookmark</h3>
             </div>
             <div class="box-body">
-                <a href="{{ url('/admin/permissions') }}" title="Quay lại danh sách"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Quay lại danh sách</button></a>
+                <a href="{{ url('/admin/bookmark') }}" title="Quay lại danh sách"><button class="btn btn-warning btn-xs"><i class="fa fa-arrow-left" aria-hidden="true"></i> Quay lại danh sách</button></a>
                 @if(\Auth::user()->can('upermissions_edit') || \Auth::user()->hasRole('administrator'))
                 <a href="{{ url('/admin/bookmark/' . $bookmark->id . '/edit') }}" title="Sửa Permission"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Sửa</button></a>
                 @endif
@@ -41,8 +41,11 @@
                                 <th>ID.</th> 
                                 <th>Tên</th>
                                 <th>Ảnh</th>
+                                <th>Nội dung</th>
                                 <th>Giá bán</th>
-                                <th>Giá nhập</th>
+                                <th>Giá bán lẻ</th>
+                                <th>Nguồn gốc</th>
+                                <th>Số lượng</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,8 +55,11 @@
                                 <td>
                                     <img style="height: 100px;width: 100px" class="img" src="{{ asset('upload/image/'.$bookmark->image) }}" />
                                 </td>    
+                                <td>{{ $bookmark->content }}</td>
                                 <td>{{ $bookmark->price }}</td>
                                 <td>{{ $bookmark->retail_price }}</td>
+                                <td>{{ $bookmark->source }}</td>
+                                <td>{{ $bookmark->quantity}}</td>
                             </tr>
                         </tbody>
                     </table>
